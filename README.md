@@ -1,25 +1,25 @@
-# empty-project
+# drag-demo
 
-Empty project.
+Drag demo.
 
 ## Building and running on localhost
 
 First install dependencies:
 
 ```sh
-npm install
+yarn
 ```
 
 To run in hot module reloading mode:
 
 ```sh
-npm start
+yarn run start
 ```
 
 To create a production build:
 
 ```sh
-npm run build-prod
+yarn run build-prod
 ```
 
 ## Running
