@@ -1,6 +1,6 @@
 # drag-demo
 
-Drag demo.
+react-dnd simple example
 
 ## Building and running on localhost
 

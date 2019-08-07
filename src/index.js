@@ -1,4 +1,5 @@
 import React from 'react';
+import { BehaviorSubject } from 'rxjs';
 import ReactDOM from 'react-dom';
 import { DndProvider } from 'react-dnd';
 import styled from 'styled-components';
@@ -14,6 +15,8 @@ const Root = styled.div`
   width: 100%;
   height: 100%;
 `;
+
+const boxList$ = new BehaviorSubject();
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -45,39 +48,47 @@ class App extends React.Component {
     this.setBoxListStateShow = this.setBoxListStateShow.bind(this);
     this.setBoxListStatePosition = this.setBoxListStatePosition.bind(this);
   }
+  componentDidMount() {
+    this.subscription = boxList$.subscribe(newState => {
+      this.setState(newState);
+    });
+  }
+  componentWillUnmount() {
+    this.subscription.unsubscribe();
+  }
   setBoxListStateShow(payload) {
     const { id, show } = payload;
-    this.setState(function(prevState) {
-      const { boxList } = prevState;
-      const targetIndex = _.findIndex(boxList, o => o.id === id);
-      const result = _.map(boxList, (item, index) => {
-        if (index === targetIndex) {
-          return {
-            ...item,
-            show,
-          };
-        }
-        return { ...item };
-      });
-      return { boxList: result };
+    const { boxList } = this.state;
+    const targetIndex = _.findIndex(boxList, o => o.id === id);
+    const result = _.map(boxList, (item, index) => {
+      if (index === targetIndex) {
+        return {
+          ...item,
+          show,
+        };
+      }
+      return { ...item };
+    });
+    boxList$.next({
+      boxList: result,
     });
   }
   setBoxListStatePosition(payload) {
     const { id, x, y } = payload;
-    this.setState(function(prevState) {
-      const { boxList } = prevState;
-      const targetIndex = _.findIndex(boxList, o => o.id === id);
-      const result = _.map(boxList, (item, index) => {
-        if (index === targetIndex) {
-          return {
-            ...item,
-            x,
-            y,
-          };
-        }
-        return { ...item };
-      });
-      return { boxList: result };
+    const { boxList } = this.state;
+    const targetIndex = _.findIndex(boxList, o => o.id === id);
+    const result = _.map(boxList, (item, index) => {
+      if (index === targetIndex) {
+        return {
+          ...item,
+          x,
+          y,
+        };
+      }
+      return { ...item };
+    });
+    boxList$.next({
+      boxList: result,
     });
   }
   render() {
