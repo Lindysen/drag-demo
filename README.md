@@ -1,6 +1,6 @@
 # drag-demo
 
-react-dnd simple example
+react-dnd 实现简单拖动效果,借助 Rxjs 监听事件流,完成内部状态更新
 
 ## Building and running on localhost
 
